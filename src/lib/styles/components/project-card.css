@@ -1,6 +1,37 @@
 .project-card {
 	background: var(--bg-secondary);
 	border: 1px solid var(--border-color);
+
 	border-radius: var(--radius-md);
+
 	padding: 1.25rem;
+
+	transition:
+		transform var(--transition-fast),
+		border-color var(--transition-fast);
+}
+
+.project-card:hover {
+	transform: translateY(-2px);
+
+	border-color: #3f3f46;
+}
+
+.project-content h3 {
+	margin-bottom: 0.5rem;
+}
+
+.project-content p {
+	color: var(--text-secondary);
+}
+
+.project-meta {
+	display: flex;
+	justify-content: space-between;
+
+	margin-top: 1rem;
+
+	color: var(--text-muted);
+
+	font-size: 0.875rem;
 }

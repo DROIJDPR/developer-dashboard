@@ -22,3 +22,16 @@ main {
 	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	gap: 1rem;
 }
+
+.projects {
+	margin-top: 3rem;
+}
+
+.projects h2 {
+	margin-bottom: 1rem;
+}
+
+.project-grid {
+	display: grid;
+	gap: 1rem;
+}
