@@ -1,0 +1,19 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 1.25rem 2rem;
+}
+
+.logo {
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.theme-btn {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 1.2rem;
+}

@@ -1,0 +1,21 @@
+:root {
+	/* Colors */
+	--bg-primary: #09090b;
+	--bg-secondary: #18181b;
+
+	--border-color: #27272a;
+
+	--text-primary: #ffffff;
+	--text-secondary: #a1a1aa;
+	--text-muted: #71717a;
+
+	/* Layout */
+	--container-width: 1200px;
+
+	/* Radius */
+	--radius-md: 16px;
+	--radius-lg: 24px;
+
+	/* Transition */
+	--transition-fast: 0.2s ease;
+}
