@@ -1,13 +1,9 @@
 <script lang="ts">
-	let {
-		value = '',
-		onSearch
-	} = $props<{
-		value?: string;
+	let { onSearch } = $props<{
 		onSearch: (username: string) => void;
 	}>();
 
-	let username = value;
+	let username = $state('');
 </script>
 
 <form
