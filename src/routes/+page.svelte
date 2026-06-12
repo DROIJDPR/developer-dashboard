@@ -1,40 +1,59 @@
 <script lang="ts">
-	import Header from '$lib/components/Header.svelte';
-	import StatCard from '$lib/components/StatCard.svelte';
-	import ProjectCard from '$lib/components/ProjectCard.svelte';
+  import Header from "$lib/components/Header.svelte";
+  import SearchBar from "$lib/components/SearchBar.svelte";
+  import UserCard from "$lib/components/UserCard.svelte";
+
+  import { getGitHubUser } from "$lib/services/github";
+
+  import type { GitHubUser } from "$lib/types/github";
+
+  let user = $state<GitHubUser | null>(null);
+
+  let isLoading = $state(false);
+
+  let error = $state("");
+
+  async function searchUser(username: string) {
+    try {
+      error = "";
+      isLoading = true;
+
+      user = await getGitHubUser(username);
+    } catch {
+      error = "User not found";
+      user = null;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  $effect(() => {
+    searchUser('DROIJDPR');
+  });
 </script>
 
 <Header />
 
 <main>
 	<section class="hero">
-		<h1>Welcome back, Juan 👋</h1>
-		<p>Your developer workspace.</p>
+		<h1>GitHub Profile Explorer</h1>
+
+		<p>
+			Search any GitHub user and explore their profile.
+		</p>
 	</section>
 
-	<section class="stats">
-		<StatCard title="Repositories" value={12} />
-		<StatCard title="Stars" value={157} />
-		<StatCard title="Forks" value={23} />
-	</section>
+	<SearchBar onSearch={searchUser} />
 
-	<section class="projects">
-		<h2>Recent Projects</h2>
+	{#if isLoading}
+		<p>Loading...</p>
+	{/if}
 
-		<div class="project-grid">
-			<ProjectCard
-				name="Developer Dashboard"
-				description="Dashboard built with SvelteKit and TypeScript."
-				tech="SvelteKit"
-				updated="Today"
-			/>
+	{#if error}
+		<p>{error}</p>
+	{/if}
 
-			<ProjectCard
-				name="Portfolio Website"
-				description="Personal portfolio showcasing projects and skills."
-				tech="TypeScript"
-				updated="Yesterday"
-			/>
-		</div>
-	</section>
+	{#if user}
+		<UserCard {user} />
+	{/if}
 </main>
