@@ -30,3 +30,9 @@
 	transform: scale(1.05);
 }
 
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+

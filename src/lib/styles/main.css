@@ -3,6 +3,7 @@
 @import './base/global.css';
 
 @import './components/header.css';
+@import './components/avatar.css';
 @import './components/stat-card.css';
 @import './components/project-card.css';
 
