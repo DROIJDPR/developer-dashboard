@@ -8,19 +8,35 @@
 
 <div class="user-card">
 	<img
+		class="user-avatar"
 		src={user.avatar_url}
 		alt={user.login}
-		width="100"
-		height="100"
+		width="96"
+		height="96"
 	/>
 
-	<h2>{user.name ?? user.login}</h2>
+	<div class="user-info">
+		<h2>{user.name ?? user.login}</h2>
 
-	<p>{user.bio}</p>
+		{#if user.bio}
+			<p>{user.bio}</p>
+		{/if}
+	</div>
 
 	<div class="stats">
-		<span>Repos: {user.public_repos}</span>
-		<span>Followers: {user.followers}</span>
-		<span>Following: {user.following}</span>
+		<div>
+			<strong>{user.public_repos}</strong>
+			<span>Repos</span>
+		</div>
+
+		<div>
+			<strong>{user.followers}</strong>
+			<span>Followers</span>
+		</div>
+
+		<div>
+			<strong>{user.following}</strong>
+			<span>Following</span>
+		</div>
 	</div>
 </div>

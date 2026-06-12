@@ -2,12 +2,14 @@
   import Header from "$lib/components/Header.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
   import UserCard from "$lib/components/UserCard.svelte";
+  import RepoCard from '$lib/components/RepoCard.svelte';
 
-  import { getGitHubUser } from "$lib/services/github";
+  import { getGitHubUser, getGitHubRepos } from '$lib/services/github';
 
-  import type { GitHubUser } from "$lib/types/github";
+  import type { GitHubUser, GitHubRepo } from '$lib/types/github';
 
   let user = $state<GitHubUser | null>(null);
+  let repos = $state<GitHubRepo[]>([]);
 
   let isLoading = $state(false);
 
@@ -18,10 +20,17 @@
       error = "";
       isLoading = true;
 
-      user = await getGitHubUser(username);
+      const [userData, repoData] = await Promise.all([
+        getGitHubUser(username),
+        getGitHubRepos(username)
+      ]);
+
+      user = userData;
+      repos = repoData;
     } catch {
       error = "User not found";
       user = null;
+      repos = [];
     } finally {
       isLoading = false;
     }
@@ -55,5 +64,17 @@
 
 	{#if user}
 		<UserCard {user} />
+	{/if}
+
+	{#if repos.length > 0}
+		<section class="projects">
+			<h2>Recent Repositories</h2>
+
+			<div class="project-grid">
+				{#each repos as repo}
+					<RepoCard {repo} />
+				{/each}
+			</div>
+		</section>
 	{/if}
 </main>

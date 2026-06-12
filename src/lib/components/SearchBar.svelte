@@ -7,18 +7,23 @@
 </script>
 
 <form
+	class="search-form"
 	onsubmit={(e) => {
 		e.preventDefault();
 		onSearch(username);
 	}}
 >
 	<input
+		class="search-input"
 		bind:value={username}
 		type="text"
-		placeholder="Search GitHub user..."
+		placeholder="Search GitHub username..."
 	/>
 
-	<button type="submit">
+	<button
+		class="search-button"
+		type="submit"
+	>
 		Search
 	</button>
 </form>

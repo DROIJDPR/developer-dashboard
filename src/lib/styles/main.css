@@ -4,7 +4,10 @@
 
 @import './components/header.css';
 @import './components/avatar.css';
-@import './components/stat-card.css';
-@import './components/project-card.css';
 
 @import './pages/dashboard.css';
+
+@import './components/user-card.css';
+@import './components/search-bar.css';
+
+@import './components/repo-card.css';
