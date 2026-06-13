@@ -7,13 +7,11 @@
   import SkeletonProfile from "$lib/components/SkeletonProfile.svelte";
   import SkeletonRepo from "$lib/components/SkeletonRepo.svelte";
   import ErrorCard from "$lib/components/ErrorCard.svelte";
-  import {getGitHubUser, getGitHubRepos} from '$lib/features/github/github.service';
   import GitHubInsights from "$lib/components/GitHubInsights.svelte";
-  import type { GitHubInsights as GitHubInsightsType, GitHubUser, GitHubRepo } from '$lib/features/github/github.types';
-  
+  import {calculateLanguages,calculateInsights,sortRepositories} from '$lib/features/github/github.helpers';
+  import {githubStore} from '$lib/features/github/github.store.svelte';
 
-  let user = $state<GitHubUser | null>(null);
-  let repos = $state<GitHubRepo[]>([]);
+  const github = githubStore;
 
   let recentSearches = $state<string[]>(
     typeof localStorage !== "undefined"
@@ -23,100 +21,23 @@
 
   let sortBy = $state<"stars" | "updated" | "name">("stars");
 
-  let languages = $derived.by(() => {
-    if (!repos.length) return [];
+ let languages = $derived.by(() =>
+	calculateLanguages(github.repos)
+);
 
-    const counts = new Map<string, number>();
+let sortedRepos = $derived.by(() =>
+	sortRepositories(github.repos, sortBy)
+);
 
-    for (const repo of repos) {
-      if (!repo.language) continue;
-
-      counts.set(repo.language, (counts.get(repo.language) ?? 0) + 1);
-    }
-
-    const total = [...counts.values()].reduce((a, b) => a + b, 0);
-
-    return [...counts.entries()]
-      .map(([name, count]) => ({
-        name,
-        count,
-        percentage: Math.round((count / total) * 100),
-      }))
-      .sort((a, b) => b.count - a.count);
-  });
-
-  let sortedRepos = $derived.by(() => {
-    const sorted = [...repos];
-
-    switch (sortBy) {
-      case "stars":
-        return sorted.sort((a, b) => b.stargazers_count - a.stargazers_count);
-
-      case "updated":
-        return sorted.sort(
-          (a, b) =>
-            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
-        );
-
-      case "name":
-        return sorted.sort((a, b) => a.name.localeCompare(b.name));
-
-      default:
-        return sorted;
-    }
-  });
-
-  let insights = $derived.by<GitHubInsightsType | null>(() => {
-    if (!repos.length || !languages.length) {
-      return null;
-    }
-
-    const totalStars = repos.reduce(
-      (sum, repo) => sum + repo.stargazers_count,
-      0,
-    );
-
-    return {
-      mostUsedLanguage: languages[0].name,
-      totalStars,
-      averageStars: Math.round(totalStars / repos.length),
-      totalRepos: repos.length,
-    };
-  });
-
-  let isLoading = $state(false);
-
-  let error = $state("");
-
-  async function searchUser(username: string) {
-    try {
-      error = "";
-      isLoading = true;
-      user = null;
-      repos = [];
-
-      const [userData, repoData] = await Promise.all([
-        getGitHubUser(username),
-        getGitHubRepos(username),
-      ]);
-
-      user = userData;
-      repos = repoData;
-      recentSearches = [
-        username,
-        ...recentSearches.filter((search) => search !== username),
-      ].slice(0, 5);
-    } catch {
-      error = "User not found";
-      user = null;
-      repos = [];
-    } finally {
-      isLoading = false;
-    }
-  }
+  let insights = $derived.by(() =>
+	calculateInsights(
+		github.repos,
+		languages
+	)
+);
 
   $effect(() => {
-    searchUser("DROIJDPR");
+    github.searchUser("DROIJDPR");
   });
 
   $effect(() => {
@@ -133,7 +54,7 @@
     <p>Search any GitHub user and explore their profile.</p>
   </section>
 
-  <SearchBar onSearch={searchUser} />
+  <SearchBar onSearch={(username) => github.searchUser(username)} />
 
   {#if recentSearches.length}
     <section class="recent-searches">
@@ -144,7 +65,7 @@
           <button
             type="button"
             class="search-tag"
-            onclick={() => searchUser(search)}
+            onclick={() => github.searchUser(search)}
           >
             {search}
           </button>
@@ -153,7 +74,7 @@
     </section>
   {/if}
 
-  {#if isLoading}
+  {#if github.isLoading}
     <SkeletonProfile />
 
     <section class="projects">
@@ -166,13 +87,13 @@
     </section>
   {/if}
 
-  {#if error}
-    <ErrorCard message={error} />
-  {/if}
+  {#if github.error}
+	<ErrorCard message={github.error} />
+{/if}
 
-  {#if user}
-    <UserCard {user} />
-  {/if}
+  {#if github.user}
+	<UserCard user={github.user} />
+{/if}
 
   {#if languages.length}
     <LanguageStats {languages} />
@@ -182,7 +103,7 @@
     <GitHubInsights {insights} />
   {/if}
 
-  {#if repos.length > 0}
+  {#if github.repos.length > 0}
     <section class="projects">
       <h2>
         Recent Repositories ({sortedRepos.length})
