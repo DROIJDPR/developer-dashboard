@@ -39,6 +39,40 @@ main {
 	gap: 1rem;
 }
 
+.repo-controls {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+
+	margin-bottom: 1rem;
+}
+
+.repo-controls label {
+	color: var(--text-secondary);
+}
+
+.repo-controls select {
+	padding: 0.5rem 0.75rem;
+
+	background: var(--bg-secondary);
+
+	border: 1px solid var(--border-color);
+
+	border-radius: var(--radius-md);
+
+	color: var(--text-primary);
+
+	cursor: pointer;
+}
+
+.repo-summary {
+	margin-bottom: 1rem;
+
+	color: var(--text-secondary);
+
+	font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
 	.project-grid {
 		grid-template-columns: 1fr;

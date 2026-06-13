@@ -57,3 +57,17 @@
 .stats span {
 	color: var(--text-secondary);
 }
+
+.profile-link {
+	display: inline-block;
+
+	margin-top: 0.75rem;
+
+	color: #3b82f6;
+
+	font-weight: 600;
+}
+
+.profile-link:hover {
+	text-decoration: underline;
+}

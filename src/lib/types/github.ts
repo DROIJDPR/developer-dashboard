@@ -18,3 +18,9 @@ export interface GitHubRepo {
 	updated_at: string;
 	stargazers_count: number;
 }
+
+export interface LanguageStat {
+	name: string;
+	count: number;
+	percentage: number;
+}

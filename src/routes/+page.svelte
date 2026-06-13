@@ -2,14 +2,60 @@
   import Header from "$lib/components/Header.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
   import UserCard from "$lib/components/UserCard.svelte";
-  import RepoCard from '$lib/components/RepoCard.svelte';
+  import RepoCard from "$lib/components/RepoCard.svelte";
+  import LanguageStats from "$lib/components/LanguageStats.svelte";
 
-  import { getGitHubUser, getGitHubRepos } from '$lib/services/github';
+  import { getGitHubUser, getGitHubRepos } from "$lib/services/github";
 
-  import type { GitHubUser, GitHubRepo } from '$lib/types/github';
+  import type { GitHubUser, GitHubRepo } from "$lib/types/github";
 
   let user = $state<GitHubUser | null>(null);
   let repos = $state<GitHubRepo[]>([]);
+
+  let sortBy = $state<"stars" | "updated" | "name">("stars");
+
+  let languages = $derived.by(() => {
+    if (!repos.length) return [];
+
+    const counts = new Map<string, number>();
+
+    for (const repo of repos) {
+      if (!repo.language) continue;
+
+      counts.set(repo.language, (counts.get(repo.language) ?? 0) + 1);
+    }
+
+    const total = [...counts.values()].reduce((a, b) => a + b, 0);
+
+    return [...counts.entries()]
+      .map(([name, count]) => ({
+        name,
+        count,
+        percentage: Math.round((count / total) * 100),
+      }))
+      .sort((a, b) => b.count - a.count);
+  });
+
+  let sortedRepos = $derived.by(() => {
+    const sorted = [...repos];
+
+    switch (sortBy) {
+      case "stars":
+        return sorted.sort((a, b) => b.stargazers_count - a.stargazers_count);
+
+      case "updated":
+        return sorted.sort(
+          (a, b) =>
+            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+        );
+
+      case "name":
+        return sorted.sort((a, b) => a.name.localeCompare(b.name));
+
+      default:
+        return sorted;
+    }
+  });
 
   let isLoading = $state(false);
 
@@ -22,7 +68,7 @@
 
       const [userData, repoData] = await Promise.all([
         getGitHubUser(username),
-        getGitHubRepos(username)
+        getGitHubRepos(username),
       ]);
 
       user = userData;
@@ -37,44 +83,64 @@
   }
 
   $effect(() => {
-    searchUser('DROIJDPR');
+    searchUser("DROIJDPR");
   });
 </script>
 
 <Header />
 
 <main>
-	<section class="hero">
-		<h1>GitHub Profile Explorer</h1>
+  <section class="hero">
+    <h1>GitHub Profile Explorer</h1>
 
-		<p>
-			Search any GitHub user and explore their profile.
-		</p>
-	</section>
+    <p>Search any GitHub user and explore their profile.</p>
+  </section>
 
-	<SearchBar onSearch={searchUser} />
+  <SearchBar onSearch={searchUser} />
 
-	{#if isLoading}
-		<p>Loading...</p>
-	{/if}
+  {#if isLoading}
+    <p>Loading...</p>
+  {/if}
 
-	{#if error}
-		<p>{error}</p>
-	{/if}
+  {#if error}
+    <p>{error}</p>
+  {/if}
 
-	{#if user}
-		<UserCard {user} />
-	{/if}
+  {#if user}
+    <UserCard {user} />
+  {/if}
 
-	{#if repos.length > 0}
-		<section class="projects">
-			<h2>Recent Repositories</h2>
+  {#if languages.length}
+    <LanguageStats {languages} />
+  {/if}
 
-			<div class="project-grid">
-				{#each repos as repo}
-					<RepoCard {repo} />
-				{/each}
-			</div>
-		</section>
-	{/if}
+  {#if repos.length > 0}
+    <section class="projects">
+      <h2>
+        Recent Repositories ({sortedRepos.length})
+      </h2>
+
+      <div class="repo-controls">
+        <label for="sort"> Sort by: </label>
+
+        <select id="sort" bind:value={sortBy}>
+          <option value="stars"> Stars </option>
+
+          <option value="updated"> Last Updated </option>
+
+          <option value="name"> Name </option>
+        </select>
+      </div>
+
+      <div class="repo-summary">
+        Showing {sortedRepos.length} repositories sorted by {sortBy}
+      </div>
+
+      <div class="project-grid">
+        {#each sortedRepos as repo}
+          <RepoCard {repo} />
+        {/each}
+      </div>
+    </section>
+  {/if}
 </main>
