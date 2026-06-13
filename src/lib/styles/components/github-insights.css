@@ -1,0 +1,36 @@
+.insights {
+	margin-top: 2rem;
+}
+
+.insights-grid {
+	display: grid;
+
+	grid-template-columns:
+		repeat(auto-fit, minmax(220px, 1fr));
+
+	gap: 1rem;
+}
+
+.insight-card {
+	background: var(--bg-secondary);
+
+	border: 1px solid var(--border-color);
+
+	border-radius: var(--radius-md);
+
+	padding: 1rem;
+}
+
+.insight-card h3 {
+	font-size: 0.9rem;
+
+	color: var(--text-secondary);
+
+	margin-bottom: 0.5rem;
+}
+
+.insight-card p {
+	font-size: 1.5rem;
+
+	font-weight: 700;
+}

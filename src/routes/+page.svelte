@@ -8,21 +8,18 @@
   import SkeletonRepo from "$lib/components/SkeletonRepo.svelte";
   import ErrorCard from "$lib/components/ErrorCard.svelte";
   import { getGitHubUser, getGitHubRepos } from "$lib/services/github";
-
+  import GitHubInsights from "$lib/components/GitHubInsights.svelte";
+  import type { GitHubInsights as GitHubInsightsType } from "$lib/types/github";
   import type { GitHubUser, GitHubRepo } from "$lib/types/github";
 
   let user = $state<GitHubUser | null>(null);
   let repos = $state<GitHubRepo[]>([]);
 
   let recentSearches = $state<string[]>(
-	typeof localStorage !== 'undefined'
-		? JSON.parse(
-				localStorage.getItem(
-					'recent-searches'
-				) ?? '[]'
-			)
-		: []
-);
+    typeof localStorage !== "undefined"
+      ? JSON.parse(localStorage.getItem("recent-searches") ?? "[]")
+      : [],
+  );
 
   let sortBy = $state<"stars" | "updated" | "name">("stars");
 
@@ -69,6 +66,24 @@
     }
   });
 
+  let insights = $derived.by<GitHubInsightsType | null>(() => {
+    if (!repos.length || !languages.length) {
+      return null;
+    }
+
+    const totalStars = repos.reduce(
+      (sum, repo) => sum + repo.stargazers_count,
+      0,
+    );
+
+    return {
+      mostUsedLanguage: languages[0].name,
+      totalStars,
+      averageStars: Math.round(totalStars / repos.length),
+      totalRepos: repos.length,
+    };
+  });
+
   let isLoading = $state(false);
 
   let error = $state("");
@@ -105,11 +120,8 @@
   });
 
   $effect(() => {
-	localStorage.setItem(
-		'recent-searches',
-		JSON.stringify(recentSearches)
-	);
-});
+    localStorage.setItem("recent-searches", JSON.stringify(recentSearches));
+  });
 </script>
 
 <Header />
@@ -164,6 +176,10 @@
 
   {#if languages.length}
     <LanguageStats {languages} />
+  {/if}
+
+  {#if insights}
+    <GitHubInsights {insights} />
   {/if}
 
   {#if repos.length > 0}

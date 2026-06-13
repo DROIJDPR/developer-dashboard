@@ -24,3 +24,10 @@ export interface LanguageStat {
 	count: number;
 	percentage: number;
 }
+
+export interface GitHubInsights {
+	mostUsedLanguage: string;
+	totalStars: number;
+	averageStars: number;
+	totalRepos: number;
+}
