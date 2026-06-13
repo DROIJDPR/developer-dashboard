@@ -7,10 +7,10 @@
   import SkeletonProfile from "$lib/components/SkeletonProfile.svelte";
   import SkeletonRepo from "$lib/components/SkeletonRepo.svelte";
   import ErrorCard from "$lib/components/ErrorCard.svelte";
-  import { getGitHubUser, getGitHubRepos } from "$lib/services/github";
+  import {getGitHubUser, getGitHubRepos} from '$lib/features/github/github.service';
   import GitHubInsights from "$lib/components/GitHubInsights.svelte";
-  import type { GitHubInsights as GitHubInsightsType } from "$lib/types/github";
-  import type { GitHubUser, GitHubRepo } from "$lib/types/github";
+  import type { GitHubInsights as GitHubInsightsType, GitHubUser, GitHubRepo } from '$lib/features/github/github.types';
+  
 
   let user = $state<GitHubUser | null>(null);
   let repos = $state<GitHubRepo[]>([]);

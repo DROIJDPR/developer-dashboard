@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { GitHubUser } from "$lib/types/github";
+  import type { GitHubUser } from '$lib/features/github/github.types';
 
   let { user } = $props<{
     user: GitHubUser;

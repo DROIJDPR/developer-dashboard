@@ -1,4 +1,4 @@
-import type { GitHubUser, GitHubRepo  } from '$lib/types/github';
+import type {GitHubUser, GitHubRepo} from './github.types';
 
 export async function getGitHubRepos(
 	username: string

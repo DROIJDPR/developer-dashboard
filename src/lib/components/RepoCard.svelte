@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { GitHubRepo } from "$lib/types/github";
+  import type { GitHubRepo } from '$lib/features/github/github.types';
 
   let { repo } = $props<{
     repo: GitHubRepo;

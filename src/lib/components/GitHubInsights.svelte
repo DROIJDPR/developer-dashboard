@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GitHubInsights } from '$lib/types/github';
+	import type { GitHubInsights } from '$lib/features/github/github.types';
 
 	let { insights } = $props<{
 		insights: GitHubInsights;

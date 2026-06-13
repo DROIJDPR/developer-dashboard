@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { LanguageStat } from "$lib/types/github";
+  import type { LanguageStat } from '$lib/features/github/github.types';
 
   const languageColors: Record<string, string> = {
     TypeScript: "#3178c6",
