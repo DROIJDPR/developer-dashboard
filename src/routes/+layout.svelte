@@ -1,9 +1,10 @@
 <script lang="ts">
-	import Sidebar from '$lib/components/Sidebar.svelte';
-	import '$lib/styles/main.css'
+	import Header from '$lib/components/Header.svelte';
+	import '$lib/styles/main.css';
+
 	let { children } = $props();
 </script>
 
-<Sidebar />
+<Header />
 
 {@render children?.()}

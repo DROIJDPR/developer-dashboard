@@ -1,14 +1,55 @@
 .header {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
+	justify-content: space-between;
 
-	padding: 1.25rem 2rem;
+	padding: 1rem 2rem;
+
+	border-bottom: 1px solid var(--border-color);
+
+	background: var(--bg-primary);
+
+	position: sticky;
+	top: 0;
+
+	z-index: 100;
 }
 
 .logo {
-	font-size: 1.1rem;
+	font-size: 1rem;
 	font-weight: 700;
+}
+
+.nav {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.nav a {
+	text-decoration: none;
+
+	color: var(--text-secondary);
+
+	font-size: 0.95rem;
+
+	transition: var(--transition-fast);
+}
+
+.nav a:hover {
+	color: var(--text-primary);
+}
+
+.nav a.active {
+	color: var(--text-primary);
+
+	font-weight: 600;
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
 }
 
 .theme-btn {
@@ -16,8 +57,8 @@
 
 	border: 1px solid var(--border-color);
 
-	width: 42px;
-	height: 42px;
+	width: 40px;
+	height: 40px;
 
 	border-radius: 999px;
 
@@ -30,9 +71,20 @@
 	transform: scale(1.05);
 }
 
-.header-actions {
+.profile {
+	width: 36px;
+	height: 36px;
+
+	border-radius: 50%;
+
+	background: var(--bg-secondary);
+
+	border: 1px solid var(--border-color);
+
 	display: flex;
 	align-items: center;
-	gap: 0.75rem;
-}
+	justify-content: center;
 
+	font-size: 0.85rem;
+	font-weight: 600;
+}

@@ -1,41 +1,75 @@
 <script lang="ts">
-	const modules = [
+	const stats = [
 		{
-			name: 'GitHub Analytics',
-			href: '/github',
-			description: 'Analyze GitHub profiles and repositories.'
+			title: 'GitHub',
+			value: 'Analytics',
+			description:
+				'Explore profiles and repositories.'
 		},
 		{
-			name: 'Projects',
-			href: '/projects',
-			description: 'Manage and track development projects.'
+			title: 'Projects',
+			value: '3',
+			description:
+				'Active development projects.'
 		},
 		{
-			name: 'Learning',
-			href: '/learning',
-			description: 'Track skills and learning progress.'
+			title: 'Learning',
+			value: '4',
+			description:
+				'Skills currently tracked.'
 		},
 		{
-			name: 'Settings',
-			href: '/settings',
-			description: 'Customize your dashboard.'
+			title: 'Theme',
+			value: 'Dark',
+			description:
+				'Current dashboard appearance.'
 		}
 	];
 </script>
 
-<h1>Developer Dashboard</h1>
+<section class="dashboard-home">
+	<div class="hero">
+		<h1>Welcome back, Juan 👋</h1>
 
-<p>Choose a module to get started.</p>
+		<p>
+			Track your projects, learning journey
+			and GitHub activity.
+		</p>
+	</div>
 
-<div class="dashboard-grid">
-	{#each modules as module}
-		<a
-			href={module.href}
-			class="dashboard-card"
-		>
-			<h2>{module.name}</h2>
+	<div class="stats-grid">
+		{#each stats as stat}
+			<div class="stat-overview-card">
+				<span class="stat-label">
+					{stat.title}
+				</span>
 
-			<p>{module.description}</p>
-		</a>
-	{/each}
-</div>
+				<h2>
+					{stat.value}
+				</h2>
+
+				<p>
+					{stat.description}
+				</p>
+			</div>
+		{/each}
+	</div>
+
+	<section class="quick-actions">
+		<h2>Quick Actions</h2>
+
+		<div class="actions-grid">
+			<a href="/github">
+				Open GitHub Analytics
+			</a>
+
+			<a href="/projects">
+				View Projects
+			</a>
+
+			<a href="/learning">
+				Continue Learning
+			</a>
+		</div>
+	</section>
+</section>

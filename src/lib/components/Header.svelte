@@ -1,6 +1,24 @@
 <script lang="ts">
-	import Avatar from '$lib/components/Avatar.svelte';
-	import { themeStore } from '$lib/stores/theme.svelte';
+	import { page } from '$app/state';
+
+	const links = [
+		{
+			label: 'Overview',
+			href: '/'
+		},
+		{
+			label: 'GitHub',
+			href: '/github'
+		},
+		{
+			label: 'Projects',
+			href: '/projects'
+		},
+		{
+			label: 'Learning',
+			href: '/learning'
+		}
+	];
 </script>
 
 <header class="header">
@@ -8,14 +26,21 @@
 		Developer Dashboard
 	</div>
 
-	<div class="header-actions">
-		<Avatar initials="JP" />
+	<nav class="nav">
+		{#each links as link}
+			<a
+				href={link.href}
+				class:active={
+					page.url.pathname ===
+					link.href
+				}
+			>
+				{link.label}
+			</a>
+		{/each}
+	</nav>
 
-		<button
-			class="theme-btn"
-			onclick={() => themeStore.toggle()}
-		>
-			{themeStore.theme === 'dark' ? '🌙' : '☀️'}
-		</button>
+	<div class="profile">
+		JP
 	</div>
 </header>
