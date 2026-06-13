@@ -1,0 +1,83 @@
+.skeleton-profile,
+.skeleton-repo {
+	background: var(--bg-secondary);
+
+	border: 1px solid var(--border-color);
+
+	border-radius: var(--radius-md);
+
+	padding: 1rem;
+}
+
+.skeleton-avatar,
+.skeleton-title,
+.skeleton-text,
+.skeleton-stat,
+.skeleton-repo-title,
+.skeleton-repo-text,
+.skeleton-repo-footer {
+	background: linear-gradient(
+		90deg,
+		var(--bg-secondary) 25%,
+		var(--border-color) 50%,
+		var(--bg-secondary) 75%
+	);
+
+	background-size: 200% 100%;
+
+	animation: shimmer 1.4s infinite;
+}
+
+.skeleton-avatar {
+	width: 96px;
+	height: 96px;
+
+	border-radius: 50%;
+
+	margin: 0 auto 1rem;
+}
+
+.skeleton-title {
+	height: 24px;
+	margin-bottom: 1rem;
+}
+
+.skeleton-text {
+	height: 16px;
+	margin-bottom: 1rem;
+}
+
+.skeleton-stats {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+
+	gap: 1rem;
+}
+
+.skeleton-stat {
+	height: 40px;
+}
+
+.skeleton-repo-title {
+	height: 20px;
+	margin-bottom: 1rem;
+}
+
+.skeleton-repo-text {
+	height: 14px;
+	margin-bottom: 1rem;
+}
+
+.skeleton-repo-footer {
+	height: 14px;
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+
+	100% {
+		background-position: -200% 0;
+	}
+}

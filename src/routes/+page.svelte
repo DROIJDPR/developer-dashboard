@@ -4,6 +4,8 @@
   import UserCard from "$lib/components/UserCard.svelte";
   import RepoCard from "$lib/components/RepoCard.svelte";
   import LanguageStats from "$lib/components/LanguageStats.svelte";
+  import SkeletonProfile from "$lib/components/SkeletonProfile.svelte";
+  import SkeletonRepo from "$lib/components/SkeletonRepo.svelte";
 
   import { getGitHubUser, getGitHubRepos } from "$lib/services/github";
 
@@ -65,6 +67,8 @@
     try {
       error = "";
       isLoading = true;
+      user = null;
+      repos = [];
 
       const [userData, repoData] = await Promise.all([
         getGitHubUser(username),
@@ -99,7 +103,16 @@
   <SearchBar onSearch={searchUser} />
 
   {#if isLoading}
-    <p>Loading...</p>
+    <SkeletonProfile />
+
+    <section class="projects">
+      <div class="project-grid">
+        <SkeletonRepo />
+        <SkeletonRepo />
+        <SkeletonRepo />
+        <SkeletonRepo />
+      </div>
+    </section>
   {/if}
 
   {#if error}
