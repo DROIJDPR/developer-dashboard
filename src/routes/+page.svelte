@@ -6,13 +6,23 @@
   import LanguageStats from "$lib/components/LanguageStats.svelte";
   import SkeletonProfile from "$lib/components/SkeletonProfile.svelte";
   import SkeletonRepo from "$lib/components/SkeletonRepo.svelte";
-
+  import ErrorCard from "$lib/components/ErrorCard.svelte";
   import { getGitHubUser, getGitHubRepos } from "$lib/services/github";
 
   import type { GitHubUser, GitHubRepo } from "$lib/types/github";
 
   let user = $state<GitHubUser | null>(null);
   let repos = $state<GitHubRepo[]>([]);
+
+  let recentSearches = $state<string[]>(
+	typeof localStorage !== 'undefined'
+		? JSON.parse(
+				localStorage.getItem(
+					'recent-searches'
+				) ?? '[]'
+			)
+		: []
+);
 
   let sortBy = $state<"stars" | "updated" | "name">("stars");
 
@@ -77,6 +87,10 @@
 
       user = userData;
       repos = repoData;
+      recentSearches = [
+        username,
+        ...recentSearches.filter((search) => search !== username),
+      ].slice(0, 5);
     } catch {
       error = "User not found";
       user = null;
@@ -89,6 +103,13 @@
   $effect(() => {
     searchUser("DROIJDPR");
   });
+
+  $effect(() => {
+	localStorage.setItem(
+		'recent-searches',
+		JSON.stringify(recentSearches)
+	);
+});
 </script>
 
 <Header />
@@ -101,6 +122,24 @@
   </section>
 
   <SearchBar onSearch={searchUser} />
+
+  {#if recentSearches.length}
+    <section class="recent-searches">
+      <h3>Recent Searches</h3>
+
+      <div class="search-tags">
+        {#each recentSearches as search}
+          <button
+            type="button"
+            class="search-tag"
+            onclick={() => searchUser(search)}
+          >
+            {search}
+          </button>
+        {/each}
+      </div>
+    </section>
+  {/if}
 
   {#if isLoading}
     <SkeletonProfile />
@@ -116,7 +155,7 @@
   {/if}
 
   {#if error}
-    <p>{error}</p>
+    <ErrorCard message={error} />
   {/if}
 
   {#if user}

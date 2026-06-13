@@ -73,6 +73,41 @@ main {
 	font-size: 0.9rem;
 }
 
+.recent-searches {
+	margin-bottom: 2rem;
+}
+
+.recent-searches h3 {
+	margin-bottom: 0.75rem;
+}
+
+.search-tags {
+	display: flex;
+	flex-wrap: wrap;
+
+	gap: 0.5rem;
+}
+
+.search-tag {
+	padding: 0.5rem 0.75rem;
+
+	background: var(--bg-secondary);
+
+	border: 1px solid var(--border-color);
+
+	border-radius: 999px;
+
+	color: var(--text-primary);
+
+	cursor: pointer;
+
+	transition: var(--transition-fast);
+}
+
+.search-tag:hover {
+	transform: translateY(-1px);
+}
+
 @media (max-width: 768px) {
 	.project-grid {
 		grid-template-columns: 1fr;
