@@ -1,0 +1,23 @@
+.sidebar {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+
+	padding: 1rem;
+
+	background: var(--bg-secondary);
+
+	border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar a {
+	text-decoration: none;
+
+	color: var(--text-primary);
+
+	font-weight: 500;
+}
+
+.sidebar a:hover {
+	text-decoration: underline;
+}
