@@ -7,11 +7,21 @@
 <div class="projects-grid">
 	{#each projects as project}
 		<div class="project-card">
-			<h2>{project.name}</h2>
+			<div class="project-header">
+				<h2>{project.name}</h2>
+
+				<span class="project-status">
+					{project.status}
+				</span>
+			</div>
 
 			<p>{project.description}</p>
 
-			<span>{project.status}</span>
+			<div class="project-meta">
+				<span>
+					Version {project.version}
+				</span>
+			</div>
 		</div>
 	{/each}
 </div>

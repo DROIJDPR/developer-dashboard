@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Header from "$lib/components/Header.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
   import UserCard from "$lib/components/UserCard.svelte";
   import RepoCard from "$lib/components/RepoCard.svelte";
@@ -12,6 +11,17 @@
   import {githubStore} from '$lib/features/github/github.store.svelte';
 
   const github = githubStore;
+
+  function handleSearch(username: string) {
+    github.searchUser(username);
+
+    recentSearches = [
+      username,
+      ...recentSearches.filter(
+        (search) => search !== username,
+      ),
+    ].slice(0, 5);
+  }
 
   let recentSearches = $state<string[]>(
     typeof localStorage !== "undefined"
@@ -45,8 +55,6 @@ let sortedRepos = $derived.by(() =>
   });
 </script>
 
-<Header />
-
 <main>
   <section class="hero">
     <h1>GitHub Profile Explorer</h1>
@@ -54,7 +62,7 @@ let sortedRepos = $derived.by(() =>
     <p>Search any GitHub user and explore their profile.</p>
   </section>
 
-  <SearchBar onSearch={(username) => github.searchUser(username)} />
+  <SearchBar onSearch={handleSearch} />
 
   {#if recentSearches.length}
     <section class="recent-searches">
@@ -65,7 +73,7 @@ let sortedRepos = $derived.by(() =>
           <button
             type="button"
             class="search-tag"
-            onclick={() => github.searchUser(search)}
+            onclick={() => handleSearch(search)}
           >
             {search}
           </button>

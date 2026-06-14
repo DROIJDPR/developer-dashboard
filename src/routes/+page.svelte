@@ -28,6 +28,8 @@ import { skills } from '$lib/data/skills';
 		href: '/settings'
 	}
 ];
+
+const currentProject = projects[0] ?? null;
 </script>
 
 <section class="dashboard-home">
@@ -59,6 +61,30 @@ import { skills } from '$lib/data/skills';
       </a>
     {/each}
   </div>
+
+  {#if currentProject}
+	<section class="current-focus">
+		<h2>Current Focus</h2>
+
+		<div class="focus-card">
+			<div class="project-header">
+				<h3>{currentProject.name}</h3>
+
+				<span class="project-status">
+					{currentProject.status}
+				</span>
+			</div>
+
+			<p>
+				{currentProject.description}
+			</p>
+
+			<div class="project-meta">
+				Version {currentProject.version}
+			</div>
+		</div>
+	</section>
+{/if}
 
   <section class="quick-actions">
     <h2>Quick Actions</h2>
