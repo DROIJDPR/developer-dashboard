@@ -1,75 +1,74 @@
 <script lang="ts">
-	const stats = [
-		{
-			title: 'GitHub',
-			value: 'Analytics',
-			description:
-				'Explore profiles and repositories.'
-		},
-		{
-			title: 'Projects',
-			value: '3',
-			description:
-				'Active development projects.'
-		},
-		{
-			title: 'Learning',
-			value: '4',
-			description:
-				'Skills currently tracked.'
-		},
-		{
-			title: 'Theme',
-			value: 'Dark',
-			description:
-				'Current dashboard appearance.'
-		}
-	];
+import { projects } from '$lib/data/projects';
+import { skills } from '$lib/data/skills';
+
+ const stats = [
+	{
+		title: 'Projects',
+		value: String(projects.length),
+		description: 'Tracked projects.',
+		href: '/projects'
+	},
+	{
+		title: 'Skills',
+		value: String(skills.length),
+		description: 'Skills currently tracked.',
+		href: '/learning'
+	},
+	{
+		title: 'GitHub',
+		value: 'Ready',
+		description: 'GitHub analytics module.',
+		href: '/github'
+	},
+	{
+		title: 'Theme',
+		value: 'Dark',
+		description: 'Current dashboard appearance.',
+		href: '/settings'
+	}
+];
 </script>
 
 <section class="dashboard-home">
-	<div class="hero">
-		<h1>Welcome back, Juan 👋</h1>
+  <div class="hero">
+    <h1>Welcome back, Juan 👋</h1>
 
-		<p>
-			Track your projects, learning journey
-			and GitHub activity.
-		</p>
-	</div>
+    <p>
+      Track your projects, learning journey and GitHub activity from one place.
+    </p>
+  </div>
 
-	<div class="stats-grid">
-		{#each stats as stat}
-			<div class="stat-overview-card">
-				<span class="stat-label">
-					{stat.title}
-				</span>
+  <div class="stats-grid">
+    {#each stats as stat}
+      <a
+        href={stat.href}
+        class="stat-overview-card"
+      >
+        <span class="stat-label">
+          {stat.title}
+        </span>
 
-				<h2>
-					{stat.value}
-				</h2>
+        <h2>
+          {stat.value}
+        </h2>
 
-				<p>
-					{stat.description}
-				</p>
-			</div>
-		{/each}
-	</div>
+        <p>
+          {stat.description}
+        </p>
+      </a>
+    {/each}
+  </div>
 
-	<section class="quick-actions">
-		<h2>Quick Actions</h2>
+  <section class="quick-actions">
+    <h2>Quick Actions</h2>
 
-		<div class="actions-grid">
-			<a href="/github">
-				Open GitHub Analytics
-			</a>
+    <div class="actions-grid">
+      <a href="/github"> Open GitHub Analytics </a>
 
-			<a href="/projects">
-				View Projects
-			</a>
+      <a href="/projects"> View Projects </a>
 
-			<a href="/learning">
-				Continue Learning
-			</a>
-		</div>
-	</section>
+      <a href="/learning"> Continue Learning </a>
+    </div>
+  </section>
 </section>

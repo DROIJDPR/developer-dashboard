@@ -1,24 +1,5 @@
 <script lang="ts">
-	const projects = [
-		{
-			name: 'Developer Dashboard',
-			description:
-				'Personal dashboard built with SvelteKit.',
-			status: 'In Progress'
-		},
-		{
-			name: 'Portfolio Website',
-			description:
-				'Personal portfolio deployed on Vercel.',
-			status: 'Live'
-		},
-		{
-			name: 'Atrapa Esfera',
-			description:
-				'Arcade-style game project.',
-			status: 'Prototype'
-		}
-	];
+	import { projects } from '$lib/data/projects';
 </script>
 
 <h1>Projects</h1>

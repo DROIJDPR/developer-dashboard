@@ -137,18 +137,6 @@ main {
 	padding: 3rem 2rem;
 }
 
-.hero {
-	margin-bottom: 2rem;
-}
-
-.hero h1 {
-	margin-bottom: 0.5rem;
-}
-
-.hero p {
-	color: var(--text-secondary);
-}
-
 .dashboard-grid {
 	display: grid;
 
@@ -200,6 +188,8 @@ main {
 }
 
 .stat-overview-card {
+	display: block;
+
 	background: var(--bg-secondary);
 
 	border: 1px solid var(--border-color);
@@ -207,6 +197,17 @@ main {
 	border-radius: var(--radius-md);
 
 	padding: 1.5rem;
+
+	text-decoration: none;
+
+	color: inherit;
+
+	cursor: pointer;
+
+	transition:
+		transform 0.2s ease,
+		border-color 0.2s ease,
+		box-shadow 0.2s ease;
 }
 
 .stat-label {
@@ -255,6 +256,15 @@ main {
 
 .actions-grid a:hover {
 	transform: translateY(-2px);
+}
+
+.stat-overview-card:hover {
+	transform: translateY(-4px);
+
+	border-color: var(--text-secondary);
+
+	box-shadow:
+		0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 @media (max-width: 768px) {
